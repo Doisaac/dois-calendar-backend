@@ -1,8 +1,12 @@
 import express from 'express'
 import { router } from './routes/auth.routes.js'
+import { dbConnection } from './database/config.js'
 
 const app = express()
 const PORT = process.env.PORT
+
+//* Database
+dbConnection()
 
 //* Public directory (middleware)
 app.use(express.static('public'))
@@ -14,5 +18,5 @@ app.use(express.json())
 app.use('/api/auth', router)
 
 app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}`)
+  console.log(`dois-calendar API listening on port ${PORT}`)
 })
