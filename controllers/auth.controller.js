@@ -25,7 +25,6 @@ export const createUser = async (req, res = response) => {
 
     await user.save()
 
-    //TODO: generate JWT
     const token = await generateJWT(user.id, user.name)
 
     res.status(201).json({
@@ -67,7 +66,6 @@ export const loginUser = async (req, res = response) => {
       })
     }
 
-    //TODO: generate JWT
     const token = await generateJWT(user.id, user.name)
 
     res.json({
