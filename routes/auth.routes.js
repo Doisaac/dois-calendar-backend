@@ -39,4 +39,4 @@ router.post(
   loginUser
 )
 
-router.post('/renew', renewToken)
+router.get('/renew', renewToken)
