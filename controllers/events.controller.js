@@ -1,11 +1,21 @@
 import { response } from 'express'
 import Event from '../models/Event.js'
 
-export const getEvents = (req, res = response) => {
-  return res.status(200).json({
-    ok: true,
-    msg: 'getEvents',
-  })
+export const getEvents = async (req, res = response) => {
+  try {
+    const events = await Event.find().populate('user', 'name')
+
+    return res.status(200).json({
+      ok: true,
+      events,
+    })
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      ok: false,
+      msg: 'Please contact an administrator',
+    })
+  }
 }
 
 export const createEvent = async (req, res = response) => {

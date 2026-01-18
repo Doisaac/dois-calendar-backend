@@ -28,7 +28,6 @@ eventSchema.method('toJSON', function () {
 
   object.id = _id
 
-  console.log(object)
   return object
 })
 
