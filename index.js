@@ -1,4 +1,6 @@
 import express from 'express'
+import cors from 'cors'
+
 import { router } from './routes/auth.routes.js'
 import { dbConnection } from './database/config.js'
 
@@ -7,6 +9,9 @@ const PORT = process.env.PORT
 
 //* Database
 dbConnection()
+
+//* Cors
+app.use(cors())
 
 //* Public directory (middleware)
 app.use(express.static('public'))

@@ -84,9 +84,15 @@ export const loginUser = async (req, res = response) => {
   }
 }
 
-export const renewToken = (req, res = response) => {
+export const renewToken = async (req, res = response) => {
+  const { uuid, name } = req
+
+  // Generate a new token
+  const token = await generateJWT(uuid, name)
+
   res.json({
     ok: true,
-    msg: 'renewToken',
+    msg: 'New token generated',
+    token,
   })
 }
