@@ -1,4 +1,5 @@
 import { response } from 'express'
+import Event from '../models/Event.js'
 
 export const getEvents = (req, res = response) => {
   return res.status(200).json({
@@ -7,11 +8,25 @@ export const getEvents = (req, res = response) => {
   })
 }
 
-export const createEvent = (req, res = response) => {
-  return res.status(200).json({
-    ok: true,
-    msg: 'createEvent',
-  })
+export const createEvent = async (req, res = response) => {
+  const event = new Event(req.body)
+
+  try {
+    event.user = req.uuid
+
+    const savedEvent = await event.save()
+
+    res.status(201).json({
+      ok: true,
+      event: savedEvent,
+    })
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      ok: false,
+      msg: 'Please contact an administrator',
+    })
+  }
 }
 
 export const updateEvent = (req, res = response) => {
