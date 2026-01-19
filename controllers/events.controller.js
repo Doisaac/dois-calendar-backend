@@ -39,12 +39,46 @@ export const createEvent = async (req, res = response) => {
   }
 }
 
-export const updateEvent = (req, res = response) => {
-  console.log(req)
-  return res.status(200).json({
-    ok: true,
-    msg: 'updateEvent',
-  })
+export const updateEvent = async (req, res = response) => {
+  const eventId = req.params.id
+  const userId = req.uuid
+
+  try {
+    const event = await Event.findById(eventId)
+
+    if (!event) {
+      return res.status(404).json({
+        ok: false,
+        msg: 'No event was found with that id',
+      })
+    }
+
+    // Validate if the requester is the user who created the event
+    if (event.user.toString() !== userId) {
+      return res.status(500).json({
+        ok: false,
+        msg: 'You do not have permission to edit this event',
+      })
+    }
+
+    const newEvent = { ...req.body, user: userId }
+
+    const editedEvent = await Event.findByIdAndUpdate(event.id, newEvent, {
+      new: true,
+    })
+
+    return res.status(200).json({
+      ok: true,
+      msg: 'Event successfully edited',
+      event: editedEvent,
+    })
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      ok: false,
+      msg: 'Please contact an administrator',
+    })
+  }
 }
 
 export const deleteEvent = (req, res = response) => {

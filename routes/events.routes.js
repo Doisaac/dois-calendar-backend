@@ -29,6 +29,15 @@ eventsRouter.post(
   createEvent,
 )
 
-eventsRouter.put('/:id', updateEvent)
+eventsRouter.put(
+  '/:id',
+  // Middlewares
+  body('title', 'The field title is required').notEmpty(),
+  body('start', 'The field start is required').custom(isDate),
+  body('end', 'The field end is required').custom(isDate),
+  validateFields,
+  // Controller
+  updateEvent,
+)
 
 eventsRouter.delete('/:id', deleteEvent)
