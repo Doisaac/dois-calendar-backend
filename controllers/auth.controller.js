@@ -92,6 +92,8 @@ export const renewToken = async (req, res = response) => {
 
   res.json({
     ok: true,
+    uuid,
+    name,
     msg: 'New token generated',
     token,
   })
