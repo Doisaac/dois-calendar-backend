@@ -5,7 +5,7 @@ export const isDate = (value) => {
     return false
   }
 
-  const date = moment(value, 'MM-DD-YYYY')
+  const date = moment(value)
 
   if (date.isValid()) {
     return true
