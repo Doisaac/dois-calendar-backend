@@ -1,5 +1,6 @@
 import express from 'express'
 import cors from 'cors'
+import path from 'path'
 
 import { router } from './routes/auth.routes.js'
 import { dbConnection } from './database/config.js'
@@ -23,6 +24,10 @@ app.use(express.json())
 //* Routes
 app.use('/api/auth', router)
 app.use('/api/events', eventsRouter)
+
+app.get('/{*splat}', (req, res) => {
+  res.sendFile(path.join(process.cwd(), 'public/index.html'))
+})
 
 app.listen(PORT, () => {
   console.log(`dois-calendar API listening on port ${PORT}`)
